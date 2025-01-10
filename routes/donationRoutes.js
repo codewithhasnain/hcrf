@@ -8,12 +8,12 @@ const {
 const { protect, admin } = require('../middleware/auth'); // Middleware for protected routes
 const router = express.Router();
 
-// POST /api/donations - Create a new donation (Public)
+// Public route to create a new donation
 router.post('/', createDonation);
 
 // Admin-only routes for managing donations
 router.get('/all', protect, admin, getDonations); // Get all donations
 router.get('/:donationId', protect, admin, getDonationDetails); // Get details of a specific donation
-router.delete('/:donationId', protect, admin, deleteDonation); // Delete donation
+router.delete('/:donationId', protect, admin, deleteDonation); // Delete a donation
 
 module.exports = router;

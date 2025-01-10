@@ -48,7 +48,11 @@ exports.createDonation = async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, message: 'Failed to record donation', error: error.message });
+        res.status(500).json({
+            success: false,
+            message: 'Failed to record donation',
+            error: error.message,
+        });
     }
 };
 
@@ -56,9 +60,17 @@ exports.createDonation = async (req, res) => {
 exports.getDonations = async (req, res) => {
     try {
         const donations = await Donation.findAll();
-        res.status(200).json(donations);
+        res.status(200).json({
+            success: true,
+            data: donations,
+        });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch donations' });
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch donations',
+            error: error.message,
+        });
     }
 };
 
@@ -68,11 +80,22 @@ exports.getDonationDetails = async (req, res) => {
     try {
         const donation = await Donation.findByPk(donationId);
         if (!donation) {
-            return res.status(404).json({ error: 'Donation not found' });
+            return res.status(404).json({
+                success: false,
+                message: 'Donation not found',
+            });
         }
-        res.status(200).json(donation);
+        res.status(200).json({
+            success: true,
+            data: donation,
+        });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch donation details' });
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch donation details',
+            error: error.message,
+        });
     }
 };
 
@@ -82,11 +105,22 @@ exports.deleteDonation = async (req, res) => {
     try {
         const donation = await Donation.findByPk(donationId);
         if (!donation) {
-            return res.status(404).json({ error: 'Donation not found' });
+            return res.status(404).json({
+                success: false,
+                message: 'Donation not found',
+            });
         }
         await donation.destroy();
-        res.status(200).json({ message: 'Donation deleted successfully' });
+        res.status(200).json({
+            success: true,
+            message: 'Donation deleted successfully',
+        });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to delete donation' });
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to delete donation',
+            error: error.message,
+        });
     }
-}; 
+};

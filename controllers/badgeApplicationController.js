@@ -1,8 +1,9 @@
 const BadgeApplication = require('../models/BadgeApplication');
 
-// Create a new badge application
 const submitBadgeApplication = async (req, res) => {
   try {
+    console.log("Received form submission:", req.body); // Log the request body
+
     const {
       businessName,
       contactPerson,
@@ -17,9 +18,12 @@ const submitBadgeApplication = async (req, res) => {
       certification,
     } = req.body;
 
-    // Handle possible stringified JSON input
+    // Debugging the parsed values
     const parsedBadges = typeof badges === 'string' ? JSON.parse(badges) : badges;
     const parsedDocumentation = typeof documentation === 'string' ? JSON.parse(documentation) : documentation;
+
+    console.log("Parsed Badges:", parsedBadges);
+    console.log("Parsed Documentation:", parsedDocumentation);
 
     const application = await BadgeApplication.create({
       businessName,
@@ -35,13 +39,15 @@ const submitBadgeApplication = async (req, res) => {
       certification,
     });
 
+    console.log("Application saved to database:", application);
+
     res.status(201).json({
       success: true,
       message: 'Badge application submitted successfully.',
       application,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error during application submission:", error); // Log the error
     res.status(500).json({ success: false, message: 'Server error.', error: error.message });
   }
 };

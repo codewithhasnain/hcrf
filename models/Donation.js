@@ -6,6 +6,10 @@ const Donation = sequelize.define('Donation', {
         type: DataTypes.FLOAT,
         allowNull: false,
     },
+    customAmount: {
+        type: DataTypes.FLOAT,
+        allowNull: true,
+    },
     donationType: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -21,12 +25,18 @@ const Donation = sequelize.define('Donation', {
     email: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+            isEmail: true,
+        },
     },
     phone: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
+        validate: {
+            isNumeric: true,
+        },
     },
-    address: {
+    streetAddress: {
         type: DataTypes.STRING,
         allowNull: true,
     },
@@ -58,16 +68,39 @@ const Donation = sequelize.define('Donation', {
         type: DataTypes.JSON,
         allowNull: true,
     },
+    enhancedWorkshop: {
+        type: DataTypes.JSON,
+        allowNull: true,
+    },
+    craftInnovation: {
+        type: DataTypes.JSON,
+        allowNull: true,
+    },
+    productPhotography: {
+        type: DataTypes.JSON,
+        allowNull: true,
+    },
+    craftDocumentaries: {
+        type: DataTypes.JSON,
+        allowNull: true,
+    },
+    craftResearch: {
+        type: DataTypes.JSON,
+        allowNull: true,
+    },
     paymentMethod: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    upiId: {
-        type: DataTypes.STRING, 
+    employerName: {
+        type: DataTypes.STRING,
         allowNull: true,
     },
-}, {
-    timestamps: true, // Enable createdAt and updatedAt
+    matchingGift: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+    },
 });
 
 module.exports = Donation;
